@@ -54,17 +54,6 @@ router.post("/", (req: Request, res: Response) => {
   res.send({ message: "Estudante Criado com Sucesso!" });
 });
 
-router.delete("/remove/:document", (req: Request, res: Response) => {
-  const studentIndex = students.findIndex(
-    (student) => student.document === req.params.document
-  );
-  if (studentIndex === -1) {
-    return res.status(400).send({ message: "Estudante não encontrado!" });
-  }
-  students.splice(studentIndex, 1);
-  res.status(200).send({ message: "Estudante removido com sucesso!" });
-});
-
 router.put("/:document", (req: Request, res: Response) => {
   const studentIndex = students.findIndex(
     (student) => student.document === req.params.document
@@ -74,6 +63,17 @@ router.put("/:document", (req: Request, res: Response) => {
   }
   students[studentIndex] = req.body;
   res.status(200).send({ message: "Estudante atualizado com sucesso!" });
+});
+
+router.delete("/remove/:document", (req: Request, res: Response) => {
+  const studentIndex = students.findIndex(
+    (student) => student.document === req.params.document
+  );
+  if (studentIndex === -1) {
+    return res.status(400).send({ message: "Estudante não encontrado!" });
+  }
+  students.splice(studentIndex, 1);
+  res.status(200).send({ message: "Estudante removido com sucesso!" });
 });
 
 export default router;
