@@ -25,6 +25,18 @@ router.post("/", async (req: Request, res: Response) => {
   res.send({ message: "Estudante Criado com Sucesso!" });
 });
 
+router.post("/authorization", async (req: Request, res: Response) => {
+  try {
+    const token = await StudentsService.authorization(
+      req.body.document,
+      req.body.password
+    );
+    res.status(200).send(token);
+  } catch (err: any) {
+    res.status(401).send({ message: err.message });
+  }
+});
+
 router.delete("/remove/:document", async (req: Request, res: Response) => {
   try {
     await StudentsService.remove(req.params.document);

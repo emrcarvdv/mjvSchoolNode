@@ -2,13 +2,13 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose";
 
 export interface IStudent {
-  name: String;
-  email: String;
-  document: String;
-  password: String;
+  name: string;
+  email: string;
+  document: string;
+  password: string;
   age: number;
-  phone: String;
-  createdAt: String | Date;
+  phone: string;
+  createdAt: string | Date;
 }
 
 export const studentSchema = new Schema<IStudent>({

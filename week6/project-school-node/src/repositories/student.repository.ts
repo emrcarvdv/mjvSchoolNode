@@ -1,4 +1,4 @@
-import { Student } from "../models/student.model";
+import { IStudent, Student } from "../models/student.model";
 
 class StudentRepository {
   getAll() {
@@ -9,11 +9,11 @@ class StudentRepository {
     return Student.findOne({ document: document });
   }
 
-  create(student: typeof Student) {
+  create(student: IStudent) {
     return Student.create(student);
   }
 
-  update(document: String, student: Partial<typeof Student>) {
+  update(document: String, student: Partial<IStudent>) {
     return Student.updateOne({ document: document }, { $set: student });
   }
 
