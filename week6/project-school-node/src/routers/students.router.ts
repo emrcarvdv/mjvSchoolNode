@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import StudentsService from "../services/students.service";
+import { authorizationMiddleware } from "../middlewares/authorization.middlewares";
 
 const router = Router();
 
@@ -15,15 +16,19 @@ router.get("/:document", async (req: Request, res: Response) => {
   res.status(200).send(student);
 });
 
-router.post("/", async (req: Request, res: Response) => {
-  if (req.body.age < 18) {
-    return res
-      .status(400)
-      .send({ message: "Estudante não tem a idade mímina" });
+router.post(
+  "/",
+  authorizationMiddleware,
+  async (req: Request, res: Response) => {
+    if (req.body.age < 18) {
+      return res
+        .status(400)
+        .send({ message: "Estudante não tem a idade mímina" });
+    }
+    await StudentsService.create(req.body);
+    res.send({ message: "Estudante Criado com Sucesso!" });
   }
-  await StudentsService.create(req.body);
-  res.send({ message: "Estudante Criado com Sucesso!" });
-});
+);
 
 router.post("/authorization", async (req: Request, res: Response) => {
   try {
@@ -31,7 +36,7 @@ router.post("/authorization", async (req: Request, res: Response) => {
       req.body.document,
       req.body.password
     );
-    res.status(200).send(token);
+    res.status(200).send({ token });
   } catch (err: any) {
     res.status(401).send({ message: err.message });
   }
